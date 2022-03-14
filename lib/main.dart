@@ -15,7 +15,8 @@ class MyApp extends StatelessWidget {
         title: 'Messenger',
         theme: ThemeData.light(),
         darkTheme: ThemeData.dark(),
-        themeMode: ThemeMode.system,
+        themeMode: ThemeMode
+            .dark, //*Temporary dark because of using old VM (ThemeMode.system)
         home: const HomeScreen());
   }
 }
