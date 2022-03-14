@@ -26,7 +26,8 @@ class HomeScreen extends StatelessWidget {
           children: const [
             Divider(thickness: 2),
 
-            //*Here temporaly only two entrys --> List
+            //*Here temporarily only two entries 
+            //TODO add list
             ChatEntry(
               name: "Peter",
               lastMessage: "BlaBlaBla",
