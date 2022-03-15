@@ -13,7 +13,8 @@ class LoggedOutScreen extends StatelessWidget {
           // TODO remove when authentication stuff is finished
           // Home Screen
           ElevatedButton(
-              onPressed: () => Navigator.of(context).pushNamed("/homePage"),
+              onPressed: () =>
+                  Navigator.of(context).pushReplacementNamed("/homePage"),
               child: Text("homePage")),
           // Sign in
           ElevatedButton(
