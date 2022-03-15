@@ -1,8 +1,10 @@
 import 'dart:ui';
 
 class ChatUser {
-  String name;
-  Image? profileImage;
+  final String name;
+  final Image? profileImage;
 
-  ChatUser({required this.name, this.profileImage = null});
+  List<Map<String, String>>? chat = List.empty();
+
+  ChatUser({required this.name, this.profileImage, this.chat});
 }

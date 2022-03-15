@@ -5,14 +5,15 @@ import 'package:messenger/src/home/widgets/chat_entry.dart';
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
-  //TODO Provider stuff
-
   @override
   Widget build(BuildContext context) {
+    //TODO Provider stuff
     List<ChatUser> users = [
       ChatUser(name: "Sebastian"),
       ChatUser(name: "Peter")
     ];
+    ChatUser myself = ChatUser(name: "Ich");
+
     return Scaffold(
       appBar: AppBar(
         //TODO making text not hardcoded, @ihavehackedyou
@@ -40,7 +41,7 @@ class HomeScreen extends StatelessWidget {
                 itemBuilder: (context, index) {
                   return ChatEntry(
                     user: users[index],
-                    lastMessage: "servus",
+                    lastMessage: "",
                     lastMessageDate: "keine Ahnung",
                   );
                 },
