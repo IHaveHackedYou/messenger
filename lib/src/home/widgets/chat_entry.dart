@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:messenger/src/_constants/models/user.dart';
 
 class ChatEntry extends StatelessWidget {
   final String name, lastMessage, lastMessageDate;
@@ -12,7 +13,8 @@ class ChatEntry extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: null,
+      onTap: () => Navigator.of(context)
+          .pushNamed("/homePage/chat", arguments: ChatUser(name: "Peter")),
       child: Card(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
