@@ -36,6 +36,9 @@ dependencies:
   cupertino_icons: ^1.0.2
   firebase: ^9.0.2
 
+  customfirebase:
+    path: "packages/customfirebase"
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
