@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:messenger/src/_constants/models/user.dart';
 import 'package:messenger/src/home/widgets/chat_entry.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
+  //TODO Provider stuff
+
   @override
   Widget build(BuildContext context) {
+    List<ChatUser> users = [
+      ChatUser(name: "Sebastian"),
+      ChatUser(name: "Peter")
+    ];
     return Scaffold(
       appBar: AppBar(
         //TODO making text not hardcoded, @ihavehackedyou
@@ -23,17 +30,22 @@ class HomeScreen extends StatelessWidget {
       ),
       body: Center(
         child: Column(
-          children: const [
-            Divider(thickness: 2),
-
-            //*Here temporarily only two entries 
-            //TODO add list
-            ChatEntry(
-              name: "Peter",
-              lastMessage: "BlaBlaBla",
-              lastMessageDate: "today",
-            ),
-            ChatEntry(),
+          children: [
+            const Divider(thickness: 2),
+            SizedBox(
+              height: 200,
+              width: MediaQuery.of(context).size.width,
+              child: ListView.builder(
+                itemCount: users.length,
+                itemBuilder: (context, index) {
+                  return ChatEntry(
+                    user: users[index],
+                    lastMessage: "servus",
+                    lastMessageDate: "keine Ahnung",
+                  );
+                },
+              ),
+            )
           ],
         ),
       ),
