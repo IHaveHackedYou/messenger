@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:messenger/src/_constants/models/routes.dart';
 import 'package:messenger/src/home/screens/home_screen.dart';
 
 void main() {
@@ -17,6 +18,8 @@ class MyApp extends StatelessWidget {
         darkTheme: ThemeData.dark(),
         themeMode: ThemeMode
             .dark, //*Temporary dark because of using old VM (ThemeMode.system)
-        home: const HomeScreen());
+        initialRoute: "/",
+        onGenerateRoute: RouteGenerator.mainRoute,
+        /* home: const HomeScreen() */);
   }
 }
