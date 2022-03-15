@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:messenger/src/_constants/models/user.dart';
 
 class ChatEntry extends StatelessWidget {
-  final String name, lastMessage, lastMessageDate;
+  final ChatUser user;
+  final String lastMessage, lastMessageDate;
   const ChatEntry(
-      {this.name = "loading...",
-      this.lastMessage = "loading...",
-      this.lastMessageDate = "loading...",
+      {required this.user,
+      required this.lastMessage,
+      required this.lastMessageDate,
       Key? key})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: null,
+      onTap: () =>
+          Navigator.of(context).pushNamed("/homePage/chat", arguments: user),
       child: Card(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -24,7 +27,7 @@ class ChatEntry extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    name, //* Chat Name
+                    user.name, //* Chat Name
                     style: const TextStyle(
                       fontSize: 17,
                       fontWeight: FontWeight.bold,
