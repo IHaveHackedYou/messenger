@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class LoggedOutScreen extends StatelessWidget {
-  const LoggedOutScreen({Key? key}) : super(key: key);
+class SignedOutScreen extends StatelessWidget {
+  const SignedOutScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -10,7 +10,6 @@ class LoggedOutScreen extends StatelessWidget {
       padding: EdgeInsets.all(20),
       child: Column(
         children: [
-          // TODO remove when authentication stuff is finished
           // Home Screen
           ElevatedButton(
               onPressed: () =>
