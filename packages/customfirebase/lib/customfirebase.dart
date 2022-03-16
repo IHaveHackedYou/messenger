@@ -1,3 +1,3 @@
 library customfirebase;
 
-// export ""
+export "src/services/authentication_service.dart";

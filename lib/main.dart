@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:messenger/src/authentication/screens/logged_out_screen.dart';
+import 'package:messenger/src/_constants/models/routes.dart';
+import 'package:messenger/src/authentication/screens/signed_out_screen.dart';
 
 // followed: https://www.youtube.com/watch?v=EXp0gq9kGxI
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // initialize Firebase
   runApp(MyApp());
 }
 
@@ -20,8 +20,10 @@ class MyApp extends StatelessWidget {
         title: 'Messenger',
         theme: ThemeData.light(),
         darkTheme: ThemeData.dark(),
-        //Temporarily dark cause of using old VM (ThemeMode.system)
+        // Temporarily dark cause of using old VM (ThemeMode.system)
         themeMode: ThemeMode.dark, 
+        // define main route for deriving children
+        onGenerateRoute: RouteGenerator.mainRoute,
         home: FutureBuilder(
             //* Firebase future, that initializes Firebase
             future: _fbApp,
@@ -34,7 +36,7 @@ class MyApp extends StatelessWidget {
               }
               // if data has arrived, and everything worked successfully
               else if(snapshot.hasData){
-                return LoggedOutScreen();
+                return SignedOutScreen();
               }
               // if Stream hasn't finished, loading
               else{
