@@ -1,19 +1,36 @@
-import 'package:firebase/firebase.dart';
 import 'package:flutter/material.dart';
+import 'package:messenger/src/_constants/models/enums.dart';
 
-class SignUpProvider extends ChangeNotifier{
+class SignUpProvider extends ChangeNotifier {
   bool _waitingOnSignUp = false;
+  bool _errorOccurred = false;
+  AuthenticationState _authState = AuthenticationState.start;
 
   bool get waitingOnSignUp => _waitingOnSignUp;
 
-  void startSignUpRequest(){
-    _waitingOnSignUp = true;
+  AuthenticationState get authState => _authState;
+  set authState(value) => _authState = _authState;
+
+  void startSignUpRequest() {
+    _authState = AuthenticationState.loading;
+    _errorOccurred = false;
     notifyListeners();
   }
 
-  void finishedSignUpRequest(){
-    _waitingOnSignUp = false;
+  void resetSignUp() {
+    _authState = AuthenticationState.start;
     notifyListeners();
   }
 
+  void signUpFinished(BuildContext context) {
+    if (!_errorOccurred)
+      Navigator.of(context).pushReplacementNamed("/homePage");
+    else
+      resetSignUp();
+    notifyListeners();
+  }
+
+  void throwError() {
+    _errorOccurred = true;
+  }
 }
