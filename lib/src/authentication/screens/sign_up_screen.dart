@@ -7,6 +7,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class SignUpScreen extends StatefulWidget {
   SignUpScreen({Key? key, required this.signUp}) : super(key: key);
+  
+  // signUp callback for firebase function
   Future<User?> Function(
     String email,
     String password,
@@ -20,59 +22,36 @@ class _SignUpScreenState extends State<SignUpScreen> {
   // bool _firebaseError = false;
   @override
   Widget build(BuildContext context) {
-    //TODO use sign_up_provider class
     return ChangeNotifierProvider(
         create: ((context) => SignUpProvider()),
         child: Consumer<SignUpProvider>(builder: (context, provider, child) {
           switch (provider.authState) {
+            // show sign up forms
             case AuthenticationState.start:
+              // TODO replace with Sign up forms
               return ElevatedButton(
                 onPressed: () async {
+                  // sign up function callback, with error message
                   widget.signUp("1234@gmail.com", "123456", ((e) {
                     provider.throwError();
                     errorMessage(context, "Firebase authentication", e);
                   })).then((value) {
+                    // when future arrives, check on signUpProvider whether signUp was successful
                     provider.signUpFinished(context);
                   });
+                  // when future hasn't arrived show loading circle
                   provider.startSignUpRequest();
                 },
-                child: Text("SignUp"),
+                child: const Text("SignUp"),
               );
+
+            // show loading circle when waiting for firebase response
             case AuthenticationState.loading:
               return const Center(child: CircularProgressIndicator());
+
             default:
               return const Text("Internal error this shouldn't happen");
           }
-          // Column(
-          //     children: [
-          //       provider.waitingOnSignUp
-          //           ? Text("loading")
-          //           : ElevatedButton(
-          //               onPressed: () async {
-          //                 // TODO implement logic, function to call to sign up user, signUp/signIn returns firebase User in a future
-          //                 // TODO implement Future validation and User readout
-          //                 //! Password must be longer than 6 char else there are firebase auth errors
-          //                 //User? user = await widget.signUp("123@gmail.com", "123456",
-          //                 //  ((e) => errorMessage(context, "Firebase authentication", e)));
-          //                 _firebaseError = false;
-          //                 widget.signUp("1234@gmail.com", "123456", ((e) {
-          //                   _firebaseError = true;
-          //                   provider.finishedSignUpRequest();
-          //                   errorMessage(context, "Firebase authentication", e);
-          //                 }))
-          //                 .then((value) {
-          //                   if (!_firebaseError) {
-          //                     Navigator.of(context)
-          //                         .pushReplacementNamed("/homepage");
-          //                   }
-          //                 });
-          //                 provider.startSignUpRequest();
-          //               },
-          //               child: Text("SignUp"),
-          //             )
-          //     ],
-          //   );
-          // },
         }));
   }
 }
