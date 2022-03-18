@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
               }
               // if data has arrived, and everything worked successfully
               else if(snapshot.hasData){
-                return SignedOutScreen();
+                return AuthenticationWrapper();
               }
               // if Stream hasn't finished, loading
               else{
