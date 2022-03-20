@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:messenger/src/_constants/models/routes.dart';
-import 'package:messenger/src/authentication/screens/signed_out_screen.dart';
+import 'package:messenger/src/authentication/screens/authentication_wrapper_screen.dart';
 
 // followed: https://www.youtube.com/watch?v=EXp0gq9kGxI
 
@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
               }
               // if data has arrived, and everything worked successfully
               else if(snapshot.hasData){
-                return SignedOutScreen();
+                return AuthenticationWrapper();
               }
               // if Stream hasn't finished, loading
               else{

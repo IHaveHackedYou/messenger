@@ -1,31 +1,82 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:customfirebase/customfirebase.dart';
+import 'package:flutter/material.dart';
+import 'package:messenger/src/_constants/models/enums.dart';
+import 'package:messenger/src/_constants/widgets/error_message.dart';
+import 'package:messenger/src/authentication/provider/sign_up_provider.dart';
+import 'package:provider/provider.dart';
+import "package:cloud_firestore/cloud_firestore.dart";
 import 'package:firebase_auth/firebase_auth.dart';
 
 class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({Key? key}) : super(key: key);
+  SignUpScreen({Key? key, required this.authService}) : super(key: key);
 
+  // signUp callback for firebase function
+  /* Future<User?> Function(
+    String email,
+    String password,
+    void Function(FirebaseAuthException e) errorCallback,
+  ) signUp; 
+  Stream<User?> Function() authStateChanges;*/
+  AuthenticationService authService;
   @override
   State<SignUpScreen> createState() => _SignUpScreenState();
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  // bool _firebaseError = false;
   @override
   Widget build(BuildContext context) {
-    // Provider of Firebase auth class
-    return ChangeNotifierProvider(create: (context) => AuthenticationService(FirebaseAuth.instance),
-    child: Consumer<AuthenticationService>(builder: (context, value, child) {
-      return ElevatedButton(
-          onPressed: () async {
-            final authProvider = Provider.of<AuthenticationService>(context, listen: false);
-            // TODO implement logic, function to call to sign up user, signUp/signIn returns firebase User in a future
-            // TODO implement Future validation and User readout
-            //! Password must be longer than 6 char else there are firebase auth errors
-            User? user = await authProvider.signUp("1234567@gmail.com", "123456");
-          }, child: Text("SignUp"),
-
-        );
-    }));
+    return MultiProvider(
+      providers: [ChangeNotifierProvider(
+          create: ((context) => SignUpProvider())),
+          ],
+      child: Consumer<SignUpProvider>(builder: (context, provider, child) {
+        switch (provider.authState) {
+          // show sign up forms
+          case AuthenticationState.start:
+            // TODO replace with Sign up forms
+            return ElevatedButton(
+              onPressed: () async {
+                // sign up function callback, with error message
+                widget.authService
+                    .signUp("12345678911111@gmail.com", "123456", "Hans", ((e) {
+                  provider.throwError();
+                  errorMessage(context, "Firebase authentication", e);
+                })).then((value) {
+                   // create custom user out of Firebase User
+                  CustomUser user = CustomUser(value!);
+                  print(user.user.uid);
+                  // FIXME doesn't work infinitly long loading
+                  DatabaseService databaseRef =
+                       DatabaseService(FirebaseFirestore.instance);
+                  databaseRef.addUser(user, ((e) {
+                    provider.throwError();
+                    errorMessage(context, "Firestore user adding", e);
+                  })).then(
+                    (value) {
+                      print("finished");
+                      provider.signUpFinished(context, user);
+                    },
+                  ); 
+                  provider.signUpFinished(context, user);
+                  // when future arrives, check on signUpProvider whether signUp was successful
+                  // and pass context and user in
+                  // provider.signUpFinished(context, user);
+                });
+                // when future hasn't arrived show loading circle
+                provider.startSignUpRequest();
+              },
+              child: const Text("SignUp"),
+            );
+    
+          // show loading circle when waiting for firebase response
+          case AuthenticationState.loading:
+            return Center(child: CircularProgressIndicator());
+    
+          default:
+            return const Text("Internal error this shouldn't happen");
+        }
+      }),
+    );
   }
 }
