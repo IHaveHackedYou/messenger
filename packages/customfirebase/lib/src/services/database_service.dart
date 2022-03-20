@@ -27,4 +27,20 @@ class DatabaseService {
       errorCallback(e);
     });
   }
+
+  // same as add User, but with update
+  // TODO check whether it works
+  Future<void> updateUser(
+    CustomUser user,
+    void Function(FirebaseAuthException e) errorCallback,
+  ) async {
+    //* file structure /users/'uid'/{name: 'name', ...}
+    return _users
+        .doc(user.user.uid)
+        .update(user.toMap())
+        .then((value) => print("user added"))
+        .catchError((e) {
+      errorCallback(e);
+    });
+  }
 }
