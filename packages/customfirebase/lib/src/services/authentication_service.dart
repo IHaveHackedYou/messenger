@@ -1,6 +1,5 @@
+import 'package:customfirebase/customfirebase.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/material.dart';
 
 class AuthenticationService{
 
@@ -25,10 +24,15 @@ class AuthenticationService{
   }
 
   // sign up user with email and password and return User in a future
-  Future<User?> signUp(String email, String password, void Function(FirebaseAuthException e) errorCallback,) async {
+  Future<User?> signUp(String email, String password, String displayName,void Function(FirebaseAuthException e) errorCallback,) async {
     try {
       await _firebaseAuth.createUserWithEmailAndPassword(
           email: email, password: password);
+      User? user = _firebaseAuth.currentUser;
+      if(user != null){
+        await _firebaseAuth.currentUser!.updateDisplayName(displayName);
+        await _firebaseAuth.currentUser!.reload();
+      }
       return _firebaseAuth.currentUser;
     } on FirebaseAuthException catch (e) {
       errorCallback(e);
@@ -43,4 +47,5 @@ class AuthenticationService{
       errorCallback(e);
     }
   }
+
 }

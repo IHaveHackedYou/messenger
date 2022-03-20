@@ -1,3 +1,4 @@
+import 'package:customfirebase/customfirebase.dart';
 import 'package:flutter/material.dart';
 import 'package:messenger/src/_constants/models/user.dart';
 import 'package:messenger/src/authentication/screens/authentication_wrapper_screen.dart';
@@ -33,9 +34,10 @@ class RouteGenerator {
 
       case "/signUp":
         return MaterialPageRoute(
-            builder: (_) => SignUpScreen(
-                signUp: args as Future<User?> Function(
-                    String, String, void Function(FirebaseAuthException))));
+            builder: (_) => SignUpScreen(authService: args as AuthenticationService
+                /* signUp: args as Future<User?> Function(
+                    String, String, void Function(FirebaseAuthException)) */
+                ));
       /*
       case "/homePage/settings"
       case "/homePage/chat/chat_settings"

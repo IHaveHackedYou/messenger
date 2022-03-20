@@ -32,8 +32,8 @@ class SignOutScreen extends StatelessWidget {
     if (_firebaseUser != null) {
       // user future delayed to avoid "setState() or markNeedsBuild called during build" error
       // more infos: https://stackoverflow.com/questions/47592301/setstate-or-markneedsbuild-called-during-build
-      Future.delayed(Duration.zero,
-          () async => Navigator.of(context).pushReplacementNamed("/homePage"));
+      // Future.delayed(Duration.zero,
+      //    () async => Navigator.of(context).pushReplacementNamed("/homePage"));
     }
     return Scaffold(
       body: Column(
@@ -42,13 +42,13 @@ class SignOutScreen extends StatelessWidget {
           ElevatedButton(
               onPressed: () => Navigator.of(context).pushReplacementNamed(
                   "/signUp",
-                  arguments: context.read<AuthenticationService>().signIn),
+                  arguments: context.read<AuthenticationService>()/* .read<AuthenticationService>().signUp */),
               child: Text("SignUp")),
           // Sign in button
           ElevatedButton(
               onPressed: () => Navigator.of(context).pushReplacementNamed(
                   "/signIn",
-                  arguments: context.read<AuthenticationService>().signIn),
+                  arguments: /* context.read<AuthenticationService>().signIn */ context),
               child: Text("SignIn")),
         ],
       ),
