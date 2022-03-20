@@ -169,34 +169,50 @@ class _SignUpScreenState extends State<SignUpScreen> {
           // show sign up forms
           case AuthenticationState.start:
             // TODO replace with Sign up forms
-            return Form(
-              key: _formKey,
-              child: Material(
-                child: Column(
-                  children: [
-                    _fistNameFormField,
-                    const SizedBox(height: 20),
-                    _lastNameFormField,
-                    const SizedBox(height: 20),
-                    _emailFormField,
-                    const SizedBox(height: 20),
-                    _passwordNameFormField,
-                    const SizedBox(height: 20),
-                    _confirmPasswordFormField,
-                    const SizedBox(height: 20),
-                    ElevatedButton(
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          signUp(
-                              _emailEditingController,
-                              _passwordEditingController,
-                              _firstNameEditingController,
-                              provider);
-                        }
-                      },
-                      child: const Text("SignUp"),
+            return Scaffold(
+              appBar: AppBar(
+                title: Text(
+                  "Sign up",
+                  style: TextStyle(
+                      color: Theme.of(context).colorScheme.onBackground),
+                ),
+                backgroundColor: Colors.transparent,
+                elevation: 0,
+                shadowColor: Colors.transparent,
+              ),
+              body: Form(
+                key: _formKey,
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        _fistNameFormField,
+                        const SizedBox(height: 20),
+                        _lastNameFormField,
+                        const SizedBox(height: 20),
+                        _emailFormField,
+                        const SizedBox(height: 20),
+                        _passwordNameFormField,
+                        const SizedBox(height: 20),
+                        _confirmPasswordFormField,
+                        const SizedBox(height: 50),
+                        ElevatedButton(
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              signUp(
+                                  _emailEditingController,
+                                  _passwordEditingController,
+                                  _firstNameEditingController,
+                                  provider);
+                            }
+                          },
+                          child: const Text("SignUp"),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
               ),
             );
@@ -219,8 +235,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
       _firstNameEditingController,
       SignUpProvider provider) async {
     //* start sign up request
-    widget.authService.signUp("12345678911111@gmail.com", "123456", "Hans",
-            ((e) {
+    widget.authService.signUp(
+            _emailEditingController.text,
+            _passwordEditingController.text,
+            _firstNameEditingController.text, ((e) {
       provider.throwError();
       errorMessage(context, "Firebase authentication", e);
     }))
