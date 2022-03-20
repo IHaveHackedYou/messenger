@@ -13,17 +13,18 @@ class DatabaseService {
     _users = _firestoreInstance.collection("users");
   }
 
+  // add user to public user list, should be added when user gets signed in
   Future<void> addUser(
     CustomUser user,
     void Function(FirebaseAuthException e) errorCallback,
   ) async {
+    //* file structure /users/'uid'/{name: 'name', ...}
     return _users
         .doc(user.user.uid)
         .set(user.toMap())
         .then((value) => print("user added"))
         .catchError((e) {
       errorCallback(e);
-      print("firebase write error");
     });
   }
 }
