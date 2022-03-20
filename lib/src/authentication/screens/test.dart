@@ -2,20 +2,30 @@ import 'package:customfirebase/customfirebase.dart';
 import 'package:flutter/material.dart';
 import 'package:messenger/src/_constants/models/enums.dart';
 import 'package:messenger/src/_constants/widgets/error_message.dart';
+import 'package:messenger/src/_constants/widgets/shaped_button.dart';
 import 'package:messenger/src/authentication/provider/sign_up_provider.dart';
 import 'package:provider/provider.dart';
 import "package:cloud_firestore/cloud_firestore.dart";
+import 'package:firebase_auth/firebase_auth.dart';
 
 class SignUpScreen extends StatefulWidget {
   SignUpScreen({Key? key, required this.authService}) : super(key: key);
 
-  // auth service ref to access signUp
+  // signUp callback for firebase function
+  /* Future<User?> Function(
+    String email,
+    String password,
+    void Function(FirebaseAuthException e) errorCallback,
+  ) signUp; 
+  Stream<User?> Function() authStateChanges;*/
   AuthenticationService authService;
+
   @override
   State<SignUpScreen> createState() => _SignUpScreenState();
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  // bool _firebaseError = false;
   @override
   Widget build(BuildContext context) {
     final _formKey = GlobalKey<FormState>();
@@ -184,8 +194,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     const SizedBox(height: 20),
                     _confirmPasswordFormField,
                     const SizedBox(height: 20),
-                    ElevatedButton(
-                      onPressed: () {
+                    ShapedButton(
+                      onPressFunction: () {
                         if (_formKey.currentState!.validate()) {
                           signUp(
                               _emailEditingController,
@@ -194,7 +204,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               provider);
                         }
                       },
-                      child: const Text("SignUp"),
+                      title: "SignUp",
                     ),
                   ],
                 ),
@@ -203,8 +213,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
           // show loading circle when waiting for firebase response
           case AuthenticationState.loading:
-            // TODO add loading screen
-            return const Center(child: CircularProgressIndicator());
+            return Center(child: CircularProgressIndicator());
 
           default:
             return const Text("Internal error this shouldn't happen");
@@ -217,35 +226,32 @@ class _SignUpScreenState extends State<SignUpScreen> {
       TextEditingController _emailEditingController,
       _passwordEditingController,
       _firstNameEditingController,
-      SignUpProvider provider) async {
-    //* start sign up request
-    widget.authService.signUp("12345678911111@gmail.com", "123456", "Hans",
-            ((e) {
+      SignUpProvider provider) {
+    widget.authService.signUp(
+        _emailEditingController.text,
+        _passwordEditingController.text,
+        _firstNameEditingController.text, ((e) {
       provider.throwError();
       errorMessage(context, "Firebase authentication", e);
-    }))
-
-        //* sign up request succeeded
-        .then((value) {
+    })).then((value) {
       // create custom user out of Firebase User
       CustomUser user = CustomUser(value!);
-
-      // initialize database service
+      print(user.user.uid);
+      // FIXME doesn't work infinitly long loading
       DatabaseService databaseRef = DatabaseService(FirebaseFirestore.instance);
-
-      //* start addUser request
       databaseRef.addUser(user, ((e) {
         provider.throwError();
         errorMessage(context, "Firestore user adding", e);
-      }))
-
-          //* addUser request was successful
-          .then(
+      })).then(
         (value) {
-          // finish sign up and transfer to homescreen
+          print("finished");
           provider.signUpFinished(context, user);
         },
       );
+      provider.signUpFinished(context, user);
+      // when future arrives, check on signUpProvider whether signUp was successful
+      // and pass context and user in
+      // provider.signUpFinished(context, user);
     });
     // when future hasn't arrived show loading circle
     provider.startSignUpRequest();

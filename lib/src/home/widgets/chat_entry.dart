@@ -14,8 +14,10 @@ class ChatEntry extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () =>
-          Navigator.of(context).pushNamed("/homePage/chat", arguments: user),
+      onTap: () {
+        print("object");
+        Navigator.of(context).pushNamed("/homePage/chat", arguments: user);
+      },
       child: Card(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
