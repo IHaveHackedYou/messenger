@@ -1,4 +1,3 @@
-import 'package:customfirebase/customfirebase.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthenticationService{
@@ -19,20 +18,27 @@ class AuthenticationService{
       return _firebaseAuth.currentUser;
     } on FirebaseAuthException catch (e) {
       errorCallback(e);
-      return null;//e.message ?? "firebase auth signInWithEmailAndPassword error";
+      return null;
     }
   }
 
   // sign up user with email and password and return User in a future
   Future<User?> signUp(String email, String password, String displayName,void Function(FirebaseAuthException e) errorCallback,) async {
     try {
+      // create user only with email and pw
       await _firebaseAuth.createUserWithEmailAndPassword(
           email: email, password: password);
+      
+      // get current user
       User? user = _firebaseAuth.currentUser;
+      
+      // if user is valid set/update display name and reload to apply
       if(user != null){
         await _firebaseAuth.currentUser!.updateDisplayName(displayName);
         await _firebaseAuth.currentUser!.reload();
       }
+      
+      // return current user
       return _firebaseAuth.currentUser;
     } on FirebaseAuthException catch (e) {
       errorCallback(e);

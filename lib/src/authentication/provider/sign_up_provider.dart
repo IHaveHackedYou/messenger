@@ -1,9 +1,12 @@
 import 'package:customfirebase/customfirebase.dart';
 import 'package:flutter/material.dart';
 import 'package:messenger/src/_constants/models/enums.dart';
-import 'package:messenger/src/_constants/widgets/error_message.dart';
 
-//! do not imper firebase.dart else your console is red
+//! IMPORTANT
+//!
+//! do not import firebase.dart else your console is red
+//! 
+//! IMPORTANT
 
 // belongs together with sign_up_screen.dart
 class SignUpProvider extends ChangeNotifier {
@@ -20,11 +23,13 @@ class SignUpProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  // go to signUp screen again, e.g. when an error occurred
   void resetSignUp() {
     _authState = AuthenticationState.start;
     notifyListeners();
   }
 
+  // validate signUp finish 
   void signUpFinished(BuildContext context, CustomUser user) {
     if (!_errorOccurred) {
       // TODO use CustomUser
@@ -42,3 +47,9 @@ class SignUpProvider extends ChangeNotifier {
     resetSignUp();
   }
 }
+
+//! IMPORTANT
+//!
+//! do not import firebase.dart else your console is red
+//! 
+//! IMPORTANT

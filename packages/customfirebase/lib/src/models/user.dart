@@ -8,6 +8,7 @@ class CustomUser{
   User get user => _user;
   CustomUser(this._user);
 
+  // convert to map for saving
   Map<String, dynamic> toMap(){
     return {
       "email" : _user.email,

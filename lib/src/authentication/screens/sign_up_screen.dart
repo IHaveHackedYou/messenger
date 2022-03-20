@@ -5,31 +5,23 @@ import 'package:messenger/src/_constants/widgets/error_message.dart';
 import 'package:messenger/src/authentication/provider/sign_up_provider.dart';
 import 'package:provider/provider.dart';
 import "package:cloud_firestore/cloud_firestore.dart";
-import 'package:firebase_auth/firebase_auth.dart';
 
 class SignUpScreen extends StatefulWidget {
   SignUpScreen({Key? key, required this.authService}) : super(key: key);
 
-  // signUp callback for firebase function
-  /* Future<User?> Function(
-    String email,
-    String password,
-    void Function(FirebaseAuthException e) errorCallback,
-  ) signUp; 
-  Stream<User?> Function() authStateChanges;*/
+  // auth service ref to access signUp
   AuthenticationService authService;
   @override
   State<SignUpScreen> createState() => _SignUpScreenState();
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  // bool _firebaseError = false;
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [ChangeNotifierProvider(
-          create: ((context) => SignUpProvider())),
-          ],
+      providers: [
+        ChangeNotifierProvider(create: ((context) => SignUpProvider())),
+      ],
       child: Consumer<SignUpProvider>(builder: (context, provider, child) {
         switch (provider.authState) {
           // show sign up forms
@@ -37,42 +29,47 @@ class _SignUpScreenState extends State<SignUpScreen> {
             // TODO replace with Sign up forms
             return ElevatedButton(
               onPressed: () async {
-                // sign up function callback, with error message
+                //* start sign up request
                 widget.authService
                     .signUp("12345678911111@gmail.com", "123456", "Hans", ((e) {
                   provider.throwError();
                   errorMessage(context, "Firebase authentication", e);
-                })).then((value) {
-                   // create custom user out of Firebase User
+                }))
+
+                    //* sign up request succeeded
+                    .then((value) {
+                  // create custom user out of Firebase User
                   CustomUser user = CustomUser(value!);
-                  print(user.user.uid);
-                  // FIXME doesn't work infinitly long loading
+
+                  // initialize database service
                   DatabaseService databaseRef =
-                       DatabaseService(FirebaseFirestore.instance);
+                      DatabaseService(FirebaseFirestore.instance);
+
+                  //* start addUser request
                   databaseRef.addUser(user, ((e) {
                     provider.throwError();
                     errorMessage(context, "Firestore user adding", e);
-                  })).then(
+                  }))
+
+                      //* addUser request was successful
+                      .then(
                     (value) {
-                      print("finished");
+                      // finish sign up and transfer to homescreen
                       provider.signUpFinished(context, user);
                     },
-                  ); 
-                  provider.signUpFinished(context, user);
-                  // when future arrives, check on signUpProvider whether signUp was successful
-                  // and pass context and user in
-                  // provider.signUpFinished(context, user);
+                  );
                 });
                 // when future hasn't arrived show loading circle
                 provider.startSignUpRequest();
               },
               child: const Text("SignUp"),
             );
-    
+
           // show loading circle when waiting for firebase response
           case AuthenticationState.loading:
-            return Center(child: CircularProgressIndicator());
-    
+            // TODO add loading screen
+            return const Center(child: CircularProgressIndicator());
+
           default:
             return const Text("Internal error this shouldn't happen");
         }
