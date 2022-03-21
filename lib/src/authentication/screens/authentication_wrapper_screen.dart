@@ -36,21 +36,25 @@ class SignOutScreen extends StatelessWidget {
           () async => Navigator.of(context).pushReplacementNamed("/homePage"));
     }
     return Scaffold(
-      body: Column(
-        children: [
-          // Sign up button
-          ElevatedButton(
-              onPressed: () => Navigator.of(context).pushReplacementNamed(
-                  "/signUp",
-                  arguments: context.read<AuthenticationService>()/* .read<AuthenticationService>().signUp */),
-              child: Text("SignUp")),
-          // Sign in button
-          ElevatedButton(
-              onPressed: () => Navigator.of(context).pushReplacementNamed(
-                  "/signIn",
-                  arguments: /* context.read<AuthenticationService>().signIn */ context),
-              child: Text("SignIn")),
-        ],
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.only(top: 50),
+          child: Column(
+            children: [
+              // Sign up button
+              ElevatedButton(
+                  onPressed: () => Navigator.of(context).pushNamed("/signUp",
+                      arguments: context.read<
+                          AuthenticationService>() /* .read<AuthenticationService>().signUp */),
+                  child: Text("SignUp")),
+              // Sign in button
+              ElevatedButton(
+                  onPressed: () => Navigator.of(context).pushNamed("/signIn",
+                      arguments: /* context.read<AuthenticationService>().signIn */ context),
+                  child: Text("SignIn")),
+            ],
+          ),
+        ),
       ),
     );
   }
