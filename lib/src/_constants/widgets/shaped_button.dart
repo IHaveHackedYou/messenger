@@ -1,22 +1,17 @@
 import 'package:flutter/material.dart';
 import 'dart:ui' as ui;
 
-class ShapedButton extends StatefulWidget {
+class ShapedButton extends StatelessWidget {
   final Function onPressed;
   final String title;
   const ShapedButton({required this.title, required this.onPressed, Key? key})
       : super(key: key);
 
   @override
-  State<ShapedButton> createState() => _ShapedButtonState();
-}
-
-class _ShapedButtonState extends State<ShapedButton> {
-  @override
   Widget build(BuildContext context) {
     return Material(
       child: MaterialButton(
-        onPressed: widget.onPressed(),
+        onPressed: onPressed(),
         child: Stack(
           alignment: Alignment.center,
           children: [
@@ -25,7 +20,7 @@ class _ShapedButtonState extends State<ShapedButton> {
               painter: CurvePainter(context),
             ),
             Text(
-              widget.title,
+              title,
               style: const TextStyle(color: Colors.black),
             ),
           ],

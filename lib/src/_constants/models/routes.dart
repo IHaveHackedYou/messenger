@@ -19,7 +19,7 @@ class RouteGenerator {
       // screen at the beginning, wrapper decides whether user gets redirected to home page or first has to sign in/up
       case "/":
         return MaterialPageRoute(builder: (_) => const AuthenticationWrapper());
-      
+
       case "/homePage":
         return MaterialPageRoute(builder: (_) => const HomeScreen());
 
@@ -34,10 +34,13 @@ class RouteGenerator {
 
       case "/signUp":
         return MaterialPageRoute(
-            builder: (_) => SignUpScreen(authService: args as AuthenticationService
-                /* signUp: args as Future<User?> Function(
-                    String, String, void Function(FirebaseAuthException)) */
-                ));
+            builder: (_) =>
+                SignUpScreen(authService: args as AuthenticationService));
+
+      case "/signIn":
+        return MaterialPageRoute(
+            builder: (_) =>
+                SignUpScreen(authService: args as AuthenticationService));
       /*
       case "/homePage/settings"
       case "/homePage/chat/chat_settings"
