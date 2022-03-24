@@ -18,7 +18,7 @@ class AuthenticationWrapper extends StatelessWidget {
           create: (context) =>
               context.read<AuthenticationService>().authStateChanges,
           initialData: null)
-    ], child: SignOutScreen());
+    ], child: const SignOutScreen());
   }
 }
 
@@ -46,12 +46,12 @@ class SignOutScreen extends StatelessWidget {
                   onPressed: () => Navigator.of(context).pushNamed("/signUp",
                       arguments: context.read<
                           AuthenticationService>() /* .read<AuthenticationService>().signUp */),
-                  child: Text("SignUp")),
+                  child: const Text("SignUp")),
               // Sign in button
               ElevatedButton(
                   onPressed: () => Navigator.of(context).pushNamed("/signIn",
-                      arguments: /* context.read<AuthenticationService>().signIn */ context),
-                  child: Text("SignIn")),
+                      arguments: context.read<AuthenticationService>()),
+                  child: const Text("SignIn")),
             ],
           ),
         ),
