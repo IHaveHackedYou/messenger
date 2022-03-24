@@ -3,19 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:messenger/src/home/widgets/chat_entry.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  final CustomUser myUser;
+  const HomeScreen({required this.myUser, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     //TODO Provider stuff
-    List<CustomUser> users = [CustomUser, CustomUser(name: "Peter")];
-    CustomUser myself = CustomUser(name: "Ich");
+    List<CustomUser> users = [];
 
     return Scaffold(
       appBar: AppBar(
         //TODO making text not hardcoded, @ihavehackedyou
         title: Text(
-          "HomeScreen",
+          "HomeScreen ${myUser.user.displayName}",
           style: TextStyle(
             color: Theme.of(context).colorScheme.onSurface,
           ), //* Is important for contrast

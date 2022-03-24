@@ -1,8 +1,8 @@
+import 'package:customfirebase/customfirebase.dart';
 import 'package:flutter/material.dart';
-import 'package:messenger/src/_constants/models/user.dart';
 
 class ChatScreen extends StatefulWidget {
-  ChatUser user;
+  CustomUser user;
   ChatScreen({required this.user, Key? key}) : super(key: key);
 
   @override
@@ -14,7 +14,7 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.user.name),
+        title: Text(widget.user.user.displayName ?? "Null"),
       ),
       body: Column(
         children: [

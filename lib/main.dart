@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:messenger/src/_constants/models/routes.dart';
+import 'package:messenger/src/_constants/widgets/shaped_button.dart';
 import 'package:messenger/src/authentication/screens/authentication_wrapper_screen.dart';
 
 // followed: https://www.youtube.com/watch?v=EXp0gq9kGxI
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData.light(),
         darkTheme: ThemeData.dark(),
         // Temporarily dark cause of using old VM (ThemeMode.system)
-        themeMode: ThemeMode.dark, 
+        themeMode: ThemeMode.dark,
         // define main route for deriving children
         onGenerateRoute: RouteGenerator.mainRoute,
         home: FutureBuilder(
@@ -31,15 +32,16 @@ class MyApp extends StatelessWidget {
               if (snapshot.hasError) {
                 print("error");
                 // TODO error screens
-                return Text(
-                    "Something went wrong: ${snapshot.error.toString()}");
+                // return Text(
+                //     "Something went wrong: ${snapshot.error.toString()}");
+                return ShapedButton(title: "Servus", onPressed: () => null);
               }
               // if data has arrived, and everything worked successfully
-              else if(snapshot.hasData){
+              else if (snapshot.hasData) {
                 return AuthenticationWrapper();
               }
               // if Stream hasn't finished, loading
-              else{
+              else {
                 // TODO loading screens
                 return Center(child: CircularProgressIndicator());
               }

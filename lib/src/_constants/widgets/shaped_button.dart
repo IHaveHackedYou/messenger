@@ -15,9 +15,28 @@ class ShapedButton extends StatelessWidget {
         child: Stack(
           alignment: Alignment.center,
           children: [
-            CustomPaint(
-              size: const Size(200, 45),
-              painter: CurvePainter(context),
+            // CustomPaint(
+            //   size: const Size(200, 45),
+            //   painter: CurvePainter(context),
+            // ),
+            Container(
+              height: 45,
+              width: 200,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(5)),
+                color: Theme.of(context).colorScheme.primary,
+                boxShadow: [
+                  BoxShadow(
+                    color: Theme.of(context).colorScheme.secondary,
+                    blurRadius: 10.0, // soften the shadow
+                    spreadRadius: 2.0, //extend the shadow
+                    offset: const Offset(
+                      15.0, // Move to right 10  horizontally
+                      15.0, // Move to bottom 10 Vertically
+                    ),
+                  )
+                ],
+              ),
             ),
             Text(
               title,

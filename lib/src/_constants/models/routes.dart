@@ -1,6 +1,7 @@
 import 'package:customfirebase/customfirebase.dart';
 import 'package:flutter/material.dart';
 import 'package:messenger/src/authentication/screens/authentication_wrapper_screen.dart';
+import 'package:messenger/src/authentication/screens/sign_in_screen.dart';
 import 'package:messenger/src/authentication/screens/sign_up_screen.dart';
 import 'package:messenger/src/chat/screens/chat_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -20,10 +21,19 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const AuthenticationWrapper());
 
       case "/homePage":
-        return MaterialPageRoute(builder: (_) => const HomeScreen());
+        if (args is CustomUser) {
+          return MaterialPageRoute(
+              builder: (_) => HomeScreen(
+                    myUser: args,
+                  ));
+        }
+        //TODO add error message
+        return MaterialPageRoute(
+            builder: (_) => const Scaffold(
+                body: Text("Internal error this souldn't happen")));
 
       case "/homePage/chat":
-        if (args is ChatUser) {
+        if (args is CustomUser) {
           return MaterialPageRoute(builder: (_) => ChatScreen(user: args));
         }
         //TODO add error message
@@ -39,7 +49,7 @@ class RouteGenerator {
       case "/signIn":
         return MaterialPageRoute(
             builder: (_) =>
-                SignUpScreen(authService: args as AuthenticationService));
+                SignInScreen(authService: args as AuthenticationService));
       /*
       case "/homePage/settings"
       case "/homePage/chat/chat_settings"

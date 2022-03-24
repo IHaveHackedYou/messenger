@@ -1,8 +1,8 @@
+import 'package:customfirebase/customfirebase.dart';
 import 'package:flutter/material.dart';
-import 'package:messenger/src/_constants/models/user.dart';
 
 class ChatEntry extends StatelessWidget {
-  final ChatUser user;
+  final CustomUser user;
   final String lastMessage, lastMessageDate;
   const ChatEntry(
       {required this.user,
@@ -29,7 +29,7 @@ class ChatEntry extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    user.name, //* Chat Name
+                    user.user.displayName ?? "Null", //* Chat Name
                     style: const TextStyle(
                       fontSize: 17,
                       fontWeight: FontWeight.bold,
