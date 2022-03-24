@@ -5,7 +5,7 @@ import 'package:messenger/src/_constants/models/enums.dart';
 //! IMPORTANT
 //!
 //! do not import firebase.dart else your console is red
-//! 
+//!
 //! IMPORTANT
 
 // belongs together with sign_up_screen.dart
@@ -29,12 +29,12 @@ class SignUpProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // validate signUp finish 
+  // validate signUp finish
   void signUpFinished(BuildContext context, CustomUser user) {
     if (!_errorOccurred) {
       // TODO use CustomUser
       // go to homepage if signUp was successful
-      Navigator.of(context).pushReplacementNamed("/homePage");
+      Navigator.of(context).pushReplacementNamed("/homePage", arguments: user);
     } else {
       // if an error occurred during signUp procedure reset signUp
       resetSignUp();
@@ -51,5 +51,5 @@ class SignUpProvider extends ChangeNotifier {
 //! IMPORTANT
 //!
 //! do not import firebase.dart else your console is red
-//! 
+//!
 //! IMPORTANT

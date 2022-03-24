@@ -34,7 +34,7 @@ class SignInProvider extends ChangeNotifier {
     if (!_errorOccurred) {
       // TODO use CustomUser
       // go to homepage if signUp was successful
-      Navigator.of(context).pushReplacementNamed("/homePage");
+      Navigator.of(context).pushReplacementNamed("/homePage", arguments: user);
     } else {
       // if an error occurred during signUp procedure reset signUp
       resetSignIn();
