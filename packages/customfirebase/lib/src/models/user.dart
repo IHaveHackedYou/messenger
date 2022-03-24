@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
 class CustomUser{
-  // firestore user
+  // firebase user
   User _user;
   // e.g. profile picture
 

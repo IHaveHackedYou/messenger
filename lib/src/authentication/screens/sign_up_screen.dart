@@ -68,9 +68,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
       ),
       validator: (value) {
         if (value!.isEmpty) {
-          return "Please enter your Last Name";
+          return "Please enter your last name";
         } else if (value.length > 10) {
-          return "Your Name is too long";
+          return "Your name is too long";
         }
         return null;
       },
