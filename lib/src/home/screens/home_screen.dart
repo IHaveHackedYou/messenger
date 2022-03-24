@@ -1,5 +1,5 @@
+import 'package:customfirebase/customfirebase.dart';
 import 'package:flutter/material.dart';
-import 'package:messenger/src/_constants/models/user.dart';
 import 'package:messenger/src/home/widgets/chat_entry.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -8,11 +8,8 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //TODO Provider stuff
-    List<ChatUser> users = [
-      ChatUser(name: "Sebastian"),
-      ChatUser(name: "Peter")
-    ];
-    ChatUser myself = ChatUser(name: "Ich");
+    List<CustomUser> users = [CustomUser, CustomUser(name: "Peter")];
+    CustomUser myself = CustomUser(name: "Ich");
 
     return Scaffold(
       appBar: AppBar(

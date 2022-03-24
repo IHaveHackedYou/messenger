@@ -1,6 +1,5 @@
 import 'package:customfirebase/customfirebase.dart';
 import 'package:flutter/material.dart';
-import 'package:messenger/src/_constants/models/user.dart';
 import 'package:messenger/src/authentication/screens/authentication_wrapper_screen.dart';
 import 'package:messenger/src/authentication/screens/sign_up_screen.dart';
 import 'package:messenger/src/chat/screens/chat_screen.dart';
