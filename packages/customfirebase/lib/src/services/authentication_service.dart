@@ -23,7 +23,7 @@ class AuthenticationService{
   }
 
   // sign up user with email and password and return User in a future
-  Future<User?> signUp(String email, String password, String displayName,void Function(FirebaseAuthException e) errorCallback,) async {
+  Future<User?> signUp(String email, String password, String displayName, void Function(FirebaseAuthException e) errorCallback,) async {
     try {
       // create user only with email and pw
       await _firebaseAuth.createUserWithEmailAndPassword(
