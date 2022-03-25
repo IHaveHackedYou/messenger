@@ -2,14 +2,13 @@
 import 'package:customfirebase/customfirebase.dart';
 import 'package:flutter/material.dart';
 import 'package:messenger/src/_constants/models/enums.dart';
-import 'package:messenger/src/_constants/models/theme_data.dart';
 import 'package:messenger/src/_constants/widgets/error_message.dart';
+import 'package:messenger/src/_constants/widgets/error_screen.dart';
 import 'package:messenger/src/_constants/widgets/input_field.dart';
+import 'package:messenger/src/_constants/widgets/loading_screen.dart';
 import 'package:messenger/src/_constants/widgets/shaped_button.dart';
 import 'package:messenger/src/authentication/provider/sign_in_provider.dart';
-import 'package:messenger/src/authentication/provider/sign_up_provider.dart';
 import 'package:provider/provider.dart';
-import "package:cloud_firestore/cloud_firestore.dart";
 
 class SignInScreen extends StatefulWidget {
   SignInScreen({Key? key, required this.authService}) : super(key: key);
@@ -72,11 +71,11 @@ class _SignInScreenState extends State<SignInScreen> {
           case AuthenticationState.start:
             return Scaffold(
               appBar: AppBar(
-                title: Text(
+                /* title: Text(
                   "Sign in",
                   style: TextStyle(
                       color: Theme.of(context).colorScheme.onBackground),
-                ),
+                ), */
                 backgroundColor: Colors.transparent,
                 elevation: 0,
                 shadowColor: Colors.transparent,
@@ -101,7 +100,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                     _passwordEditingController, provider);
                               }
                             },
-                            title: "SignUp",
+                            title: "Login",
                           ),
                         ],
                       ),
@@ -113,11 +112,10 @@ class _SignInScreenState extends State<SignInScreen> {
 
           // show loading circle when waiting for firebase response
           case AuthenticationState.loading:
-            // TODO add loading screen
-            return const Center(child: CircularProgressIndicator());
+            return const LoadingScreen();
 
           default:
-            return const Text("Internal error this shouldn't happen");
+            return const ErrorScreen(error: "This should not happen");
         }
       }),
     );

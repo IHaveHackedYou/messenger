@@ -2,7 +2,9 @@ import 'package:customfirebase/customfirebase.dart';
 import 'package:flutter/material.dart';
 import 'package:messenger/src/_constants/models/enums.dart';
 import 'package:messenger/src/_constants/widgets/error_message.dart';
+import 'package:messenger/src/_constants/widgets/error_screen.dart';
 import 'package:messenger/src/_constants/widgets/input_field.dart';
+import 'package:messenger/src/_constants/widgets/loading_screen.dart';
 import 'package:messenger/src/_constants/widgets/shaped_button.dart';
 import 'package:messenger/src/authentication/provider/sign_up_provider.dart';
 import 'package:provider/provider.dart';
@@ -113,11 +115,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
           case AuthenticationState.start:
             return Scaffold(
               appBar: AppBar(
-                title: Text(
+                /* title: Text(
                   "Sign up",
                   style: TextStyle(
                       color: Theme.of(context).colorScheme.onBackground),
-                ),
+                ), */
                 backgroundColor: Colors.transparent,
                 elevation: 0,
                 shadowColor: Colors.transparent,
@@ -150,7 +152,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     provider);
                               }
                             },
-                            title: ("SignUp"),
+                            title: ("Register"),
                           ),
                         ],
                       ),
@@ -162,11 +164,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
           // show loading circle when waiting for firebase response
           case AuthenticationState.loading:
-            // TODO add loading screen
-            return const Center(child: CircularProgressIndicator());
+            return const LoadingScreen();
 
           default:
-            return const Text("Internal error this shouldn't happen");
+            return const ErrorScreen(error: "This should not happen");
         }
       }),
     );

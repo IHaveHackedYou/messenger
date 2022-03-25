@@ -1,5 +1,6 @@
 import 'package:customfirebase/customfirebase.dart';
 import 'package:flutter/material.dart';
+import 'package:messenger/src/_constants/widgets/shaped_button.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -41,17 +42,34 @@ class SignOutScreen extends StatelessWidget {
           padding: const EdgeInsets.only(top: 50),
           child: Column(
             children: [
+              Text(
+                "Fancy app name",
+                style: TextStyle(fontSize: 40,
+                    //color: Theme.of(context).colorScheme.onBackground,
+                    shadows: [
+                      Shadow(
+                        color: Theme.of(context).colorScheme.primary,
+                        blurRadius: 20,
+                      )
+                    ]),
+              ),
+              const SizedBox(height: 50),
+              const FlutterLogo(size: 200),
+              const Spacer(),
+              ShapedButton(
+                  onPressed: () => Navigator.of(context).pushNamed("/signIn",
+                      arguments: context.read<AuthenticationService>()),
+                  title: ("SignIn")),
+              const SizedBox(height: 10),
+              // Sign in button
+
               // Sign up button
-              ElevatedButton(
+              ShapedButton(
                   onPressed: () => Navigator.of(context).pushNamed("/signUp",
                       arguments: context.read<
                           AuthenticationService>() /* .read<AuthenticationService>().signUp */),
-                  child: const Text("SignUp")),
-              // Sign in button
-              ElevatedButton(
-                  onPressed: () => Navigator.of(context).pushNamed("/signIn",
-                      arguments: context.read<AuthenticationService>()),
-                  child: const Text("SignIn")),
+                  title: ("SignUp")),
+              const SizedBox(height: 50),
             ],
           ),
         ),
