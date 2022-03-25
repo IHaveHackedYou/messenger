@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:ui' as ui;
 
+import 'package:messenger/src/_constants/models/theme_data.dart';
+
 class ShapedButton extends StatelessWidget {
   final Function onPressed;
   final String title;
@@ -9,74 +11,34 @@ class ShapedButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: MaterialButton(
-        onPressed: onPressed(),
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            // CustomPaint(
-            //   size: const Size(200, 45),
-            //   painter: CurvePainter(context),
-            // ),
-            Container(
-              height: 45,
-              width: 200,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(5)),
-                color: Theme.of(context).colorScheme.primary,
-                boxShadow: [
-                  BoxShadow(
-                    color: Theme.of(context).colorScheme.secondary,
-                    blurRadius: 10.0, // soften the shadow
-                    spreadRadius: 2.0, //extend the shadow
-                    offset: const Offset(
-                      15.0, // Move to right 10  horizontally
-                      15.0, // Move to bottom 10 Vertically
-                    ),
-                  )
-                ],
-              ),
+    return InkWell(
+      onTap: () => onPressed(),
+      splashColor: Theme.of(context).colorScheme.secondary,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          Ink(
+            height: 45,
+            width: 200,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(
+                  Radius.circular(ThemeDataConstants.borderRadius)),
+              color: Theme.of(context).colorScheme.primary,
+              boxShadow: [
+                BoxShadow(
+                  color: Theme.of(context).colorScheme.primary.withAlpha(100),
+                  blurRadius: 30.0, // soften the shadow
+                  spreadRadius: 2.0, //extend the shadow
+                )
+              ],
             ),
-            Text(
-              title,
-              style: const TextStyle(color: Colors.black),
-            ),
-          ],
-        ),
+          ),
+          Text(
+            title,
+            style: ThemeDataConstants.buttonText,
+          ),
+        ],
       ),
     );
-  }
-}
-
-class CurvePainter extends CustomPainter {
-  final BuildContext context;
-  CurvePainter(this.context);
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    var paint = Paint()
-      ..shader = ui.Gradient.radial(
-        Offset(size.width * 0.5, size.height * 0.5),
-        size.height * 2,
-        [
-          Colors.orange,
-          Colors.red,
-        ],
-      )
-      ..style = PaintingStyle.fill;
-
-    var path = Path()
-      ..moveTo(0, 0)
-      ..lineTo(size.width * 0.92, 0)
-      ..lineTo(size.width, size.height)
-      ..lineTo(size.width * 0.08, size.height);
-
-    canvas.drawPath(path, paint);
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) {
-    return true;
   }
 }

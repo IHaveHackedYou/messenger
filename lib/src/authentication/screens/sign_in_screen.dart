@@ -2,7 +2,10 @@
 import 'package:customfirebase/customfirebase.dart';
 import 'package:flutter/material.dart';
 import 'package:messenger/src/_constants/models/enums.dart';
+import 'package:messenger/src/_constants/models/theme_data.dart';
 import 'package:messenger/src/_constants/widgets/error_message.dart';
+import 'package:messenger/src/_constants/widgets/input_field.dart';
+import 'package:messenger/src/_constants/widgets/shaped_button.dart';
 import 'package:messenger/src/authentication/provider/sign_in_provider.dart';
 import 'package:messenger/src/authentication/provider/sign_up_provider.dart';
 import 'package:provider/provider.dart';
@@ -24,21 +27,12 @@ class _SignInScreenState extends State<SignInScreen> {
     TextEditingController _emailEditingController = TextEditingController();
     TextEditingController _passwordEditingController = TextEditingController();
 
-    final _emailFormField = TextFormField(
-      controller: _emailEditingController,
-      keyboardType: TextInputType.emailAddress,
-      textInputAction: TextInputAction.next,
-      autofocus: false,
-      obscureText: false,
-      decoration: InputDecoration(
-        prefixIcon: const Icon(Icons.email_rounded),
-        contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
-        hintText: "Your Email",
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-        ),
-      ),
-      validator: (value) {
+    final _emailFormField = InputField(
+      textEditingController: _emailEditingController,
+      inputType: TextInputType.emailAddress,
+      hint: "Email",
+      icon: const Icon(Icons.email_rounded),
+      validatorFunction: (value) {
         if (value!.isEmpty) {
           return "Please enter your Email";
         } else if (!value.contains("@") && !value.contains(".")) {
@@ -46,34 +40,24 @@ class _SignInScreenState extends State<SignInScreen> {
         }
         return null;
       },
-      onSaved: (value) {
+      onSavedFunction: (value) {
         _emailEditingController.text = value!;
       },
     );
 
-    final _passwordNameFormField = TextFormField(
-      controller: _passwordEditingController,
-      keyboardType: TextInputType.visiblePassword,
-      textInputAction: TextInputAction.next,
-      autofocus: false,
+    final _passwordFormField = InputField(
+      textEditingController: _passwordEditingController,
+      inputType: TextInputType.visiblePassword,
+      hint: "Password",
       obscureText: true,
-      decoration: InputDecoration(
-        prefixIcon: const Icon(Icons.vpn_key_rounded),
-        contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
-        hintText: "Password",
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-        ),
-      ),
-      validator: (value) {
+      icon: const Icon(Icons.vpn_key_rounded),
+      validatorFunction: (value) {
         if (value!.isEmpty) {
           return "Please enter your Password";
-        } else if (value.length < 8) {
-          return "Your password is too short";
         }
         return null;
       },
-      onSaved: (value) {
+      onSavedFunction: (value) {
         _passwordEditingController.text = value!;
       },
     );
@@ -86,7 +70,6 @@ class _SignInScreenState extends State<SignInScreen> {
         switch (provider.authState) {
           // show sign up forms
           case AuthenticationState.start:
-            // TODO replace with Sign up forms
             return Scaffold(
               appBar: AppBar(
                 title: Text(
@@ -98,28 +81,30 @@ class _SignInScreenState extends State<SignInScreen> {
                 elevation: 0,
                 shadowColor: Colors.transparent,
               ),
-              body: Form(
-                key: _formKey,
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        _emailFormField,
-                        const SizedBox(height: 20),
-                        _passwordNameFormField,
-                        const SizedBox(height: 20),
-                        ElevatedButton(
-                          onPressed: () {
-                            if (_formKey.currentState!.validate()) {
-                              signIn(_emailEditingController,
-                                  _passwordEditingController, provider);
-                            }
-                          },
-                          child: const Text("SignUp"),
-                        ),
-                      ],
+              body: Center(
+                child: Form(
+                  key: _formKey,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 20, horizontal: 30),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          _emailFormField,
+                          const SizedBox(height: 20),
+                          _passwordFormField,
+                          const SizedBox(height: 20),
+                          ShapedButton(
+                            onPressed: () {
+                              if (_formKey.currentState!.validate()) {
+                                signIn(_emailEditingController,
+                                    _passwordEditingController, provider);
+                              }
+                            },
+                            title: "SignUp",
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
