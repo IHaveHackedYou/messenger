@@ -1,5 +1,6 @@
 import 'package:customfirebase/customfirebase.dart';
 import 'package:flutter/material.dart';
+import 'package:messenger/main/screens/splash_cliper.dart';
 import 'package:messenger/src/_constants/widgets/shaped_button.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -56,20 +57,40 @@ class SignOutScreen extends StatelessWidget {
               const SizedBox(height: 50),
               const FlutterLogo(size: 200),
               const Spacer(),
-              ShapedButton(
-                  onPressed: () => Navigator.of(context).pushNamed("/signIn",
-                      arguments: context.read<AuthenticationService>()),
-                  title: ("SignIn")),
-              const SizedBox(height: 10),
-              // Sign in button
+              Stack(
+                alignment: Alignment.bottomCenter,
+                children: [
+                  ClipPath(
+                    clipper: CustomSplash(),
+                    child: Container(
+                      alignment: Alignment.bottomCenter,
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height * 0.5,
+                      color: Theme.of(context).colorScheme.secondary,
+                    ),
+                  ),
+                  Column(
+                    children: [
+                      ShapedButton(
+                          onPressed: () => Navigator.of(context).pushNamed(
+                              "/signIn",
+                              arguments: context.read<AuthenticationService>()),
+                          title: ("SignIn")),
+                      const SizedBox(height: 10),
+                      // Sign in button
 
-              // Sign up button
-              ShapedButton(
-                  onPressed: () => Navigator.of(context).pushNamed("/signUp",
-                      arguments: context.read<
-                          AuthenticationService>() /* .read<AuthenticationService>().signUp */),
-                  title: ("SignUp")),
-              const SizedBox(height: 50),
+                      // Sign up button
+                      ShapedButton(
+                          onPressed: () => Navigator.of(context).pushNamed(
+                              "/signUp",
+                              arguments: context.read<
+                                  AuthenticationService>() /* .read<AuthenticationService>().signUp */),
+                          title: ("SignUp")),
+                      const SizedBox(height: 50),
+                    ],
+                  )
+                ],
+              ),
             ],
           ),
         ),

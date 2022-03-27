@@ -5,9 +5,8 @@ import 'package:messenger/src/authentication/screens/authentication_wrapper_scre
 import 'package:messenger/src/authentication/screens/sign_in_screen.dart';
 import 'package:messenger/src/authentication/screens/sign_up_screen.dart';
 import 'package:messenger/src/chat/screens/chat_screen.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-
 import 'package:messenger/src/home/screens/home_screen.dart';
+import 'package:messenger/src/home/screens/search_screen.dart';
 
 // followed https://www.youtube.com/watch?v=nyvwx7o277U tutorial
 
@@ -20,6 +19,8 @@ class RouteGenerator {
       // screen at the beginning, wrapper decides whether user gets redirected to home page or first has to sign in/up
       case "/":
         return MaterialPageRoute(builder: (_) => const AuthenticationWrapper());
+      case "/homePage/search":
+        return MaterialPageRoute(builder: (_) => const SearchScreen());
 
       case "/homePage":
         if (args is CustomUser) {

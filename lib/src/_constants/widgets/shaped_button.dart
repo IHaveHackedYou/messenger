@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:ui' as ui;
 
 import 'package:messenger/src/_constants/models/theme_data.dart';
 
@@ -11,13 +10,13 @@ class ShapedButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () => onPressed(),
+    return MaterialButton(
+      onPressed: () => onPressed(),
       splashColor: Theme.of(context).colorScheme.secondary,
       child: Stack(
         alignment: Alignment.center,
         children: [
-          Ink(
+          Container(
             height: 45,
             width: 200,
             decoration: BoxDecoration(

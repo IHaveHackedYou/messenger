@@ -1,6 +1,11 @@
+import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:messenger/main/screens/splash_cliper.dart';
+import 'package:messenger/main/screens/splash_screen.dart';
 import 'package:messenger/src/_constants/models/routes.dart';
+import 'package:messenger/src/_constants/widgets/error_screen.dart';
+import 'package:messenger/src/_constants/widgets/loading_screen.dart';
 import 'package:messenger/src/_constants/widgets/shaped_button.dart';
 import 'package:messenger/src/authentication/screens/authentication_wrapper_screen.dart';
 
@@ -25,26 +30,33 @@ class MyApp extends StatelessWidget {
         themeMode: ThemeMode.dark,
         // define main route for deriving children
         onGenerateRoute: RouteGenerator.mainRoute,
-        home: FutureBuilder(
-            //* Firebase future, that initializes Firebase
-            future: _fbApp,
-            builder: (context, snapshot) {
-              if (snapshot.hasError) {
-                print("error");
-                // TODO error screens
-                // return Text(
-                //     "Something went wrong: ${snapshot.error.toString()}");
-                return ShapedButton(title: "Servus", onPressed: () => null);
-              }
-              // if data has arrived, and everything worked successfully
-              else if (snapshot.hasData) {
-                return AuthenticationWrapper();
-              }
-              // if Stream hasn't finished, loading
-              else {
-                // TODO loading screens
-                return Center(child: CircularProgressIndicator());
-              }
-            }));
+
+        //Splash screen
+        home: AnimatedSplashScreen(
+          splashTransition: SplashTransition.slideTransition,
+          splashIconSize: double.infinity,
+          splash: const SplashScreen(),
+          backgroundColor: Colors.black,
+          nextScreen: FutureBuilder(
+              //* Firebase future, that initializes Firebase
+              future: _fbApp,
+              builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  print("error");
+                  // TODO error screens
+                  return ErrorScreen(
+                      error:
+                          "Something went wrong: ${snapshot.error.toString()}");
+                }
+                // if data has arrived, and everything worked successfully
+                else if (snapshot.hasData) {
+                  return const AuthenticationWrapper();
+                }
+                // if Stream hasn't finished, loading
+                else {
+                  return const LoadingScreen();
+                }
+              }),
+        ));
   }
 }

@@ -8,20 +8,21 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //TODO Provider stuff
     List<CustomUser> users = [];
 
     return Scaffold(
       appBar: AppBar(
-        //TODO making text not hardcoded, @ihavehackedyou
         title: Text(
           "HomeScreen ${myUser.user.displayName}",
           style: TextStyle(
             color: Theme.of(context).colorScheme.onSurface,
           ), //* Is important for contrast
         ),
-        actions: const [
-          IconButton(onPressed: null, icon: Icon(Icons.menu_rounded))
+        actions: [
+          IconButton(
+              onPressed: () => Navigator.of(context)
+                  .pushReplacementNamed("/homePage/search"),
+              icon: const Icon(Icons.search_rounded))
         ],
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -29,17 +30,16 @@ class HomeScreen extends StatelessWidget {
       body: Center(
         child: Column(
           children: [
-            const Divider(thickness: 2),
             SizedBox(
               height: 200,
               width: MediaQuery.of(context).size.width,
               child: ListView.builder(
-                itemCount: users.length,
+                itemCount: 2,
                 itemBuilder: (context, index) {
-                  return ChatEntry(
-                    user: users[index],
-                    lastMessage: "",
-                    lastMessageDate: "keine Ahnung",
+                  return const ChatEntry(
+                    userName: "Peter lol",
+                    lastMessage: "komme morgen om",
+                    lastMessageDate: "25.2.2000",
                   );
                 },
               ),
